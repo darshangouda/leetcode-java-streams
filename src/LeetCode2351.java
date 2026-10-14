@@ -14,13 +14,14 @@ public class LeetCode2351 {
                 .boxed()
                 .collect(Collectors.groupingBy(s::charAt));
 
-        var index = map.values()
+        int index = map.values()
                 .stream()
                 .filter(l -> l.size() > 1)
-                .min(Comparator.<List<Integer>>comparingInt(l -> l.get(1)))
-                .get();
+                .map(l -> l.get(1))
+                .min( Comparator.comparingInt(num -> num))
+                .orElse(-1);
 
-        return index.getFirst() != -1 ? s.charAt(index.getFirst()) : '0';
+        return index != -1 ? s.charAt(index) : '0';
     }
 
     public char repeatedCharacter_1(String s) {
