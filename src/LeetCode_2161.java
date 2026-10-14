@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class LeetCode_2161 {
+public class LeetCode2161 {
 
     private int getBucket(int num,int pivot)
     {
@@ -34,8 +34,10 @@ public class LeetCode_2161 {
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
+
+
     public static void main(String[] args) {
-        LeetCode_2161 solution = new LeetCode_2161();
+        LeetCode2161 solution = new LeetCode2161();
 
         // Example 1
         int[] nums1 = {9, 12, 5, 10, 14, 3, 10};
