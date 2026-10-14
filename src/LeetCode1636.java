@@ -5,7 +5,24 @@ import java.util.stream.Collectors;
 //1636. Sort Array by Increasing Frequency
 public class LeetCode1636 {
 
-    public int[] frequencySort_(int[] nums) {
+    //Better approach
+    public int[] frequencySort(int[] nums) {
+        // 1. Build an int-based frequency map using summingInt
+        Map<Integer, List<Integer>> countMap = Arrays.stream(nums)
+                .boxed()
+                .collect(Collectors.groupingBy(Function.identity()));
+
+        // 2. Sort by frequency ascending, then by value descending for ties
+        return countMap.entrySet()
+                .stream()
+                .sorted(Comparator.<Map.Entry<Integer,List<Integer>>>comparingInt( entry -> entry.getValue().size())
+                        .thenComparing( Map.Entry::getKey,Comparator.reverseOrder()))
+                .flatMap( entry -> entry.getValue().stream())
+                .mapToInt(Integer::intValue)
+                .toArray();
+    }
+
+    public int[] frequencySort_1(int[] nums) {
         // 1. Build an int-based frequency map using summingInt
         Map<Integer, Integer> countMap = Arrays.stream(nums)
                 .boxed()
@@ -20,8 +37,7 @@ public class LeetCode1636 {
                 .toArray();
     }
 
-
-    public int[] frequencySort(int[] nums) {
+    public int[] frequencySort_2(int[] nums) {
         // 1. Build an int-based frequency map using summingInt
         Map<Integer, List<Integer>> countMap = Arrays.stream(nums)
                 .boxed()
@@ -37,5 +53,7 @@ public class LeetCode1636 {
                 .mapToInt(i -> i)
                 .toArray();
     }
+
+
 
 }
