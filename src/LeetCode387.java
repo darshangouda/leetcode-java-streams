@@ -5,24 +5,25 @@ import java.util.stream.IntStream;
 //387. First Unique Character in a String
 public class LeetCode387 {
 
-    //Runtime: 33ms
+
+    //Best Stream Approach
     public int firstUniqChar(String s) {
-        return IntStream.range(0,s.length())
-                .filter( i-> s.indexOf(s.charAt(i))==s.lastIndexOf(s.charAt(i)))
+        var countMap = s.chars()
+                .mapToObj(ch -> (char) ch)
+                .collect(Collectors.toMap(ch -> ch, ch -> 1, Integer::sum)); //55ms
+        //.collect(Collectors.groupingBy(ch -> ch, Collectors.summingInt(e ->1))); //92ms
+        //.collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));  //86ms
+
+        return IntStream.range(0, s.length())
+                .filter(i -> countMap.get(s.charAt(i)) == 1)
                 .findFirst()
                 .orElse(-1);
     }
 
-    //Best Stream Approach
-    public int firstUniqChar_2(String s) {
-        var countMap = s.chars()
-                .mapToObj(ch -> (char) ch)
-                .collect(Collectors.toMap(ch -> ch, ch -> 1, Integer::sum)); //55ms
-                //.collect(Collectors.groupingBy(ch -> ch, Collectors.summingInt(e ->1))); //92ms
-                //.collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));  //86ms
-
-        return IntStream.range(0, s.length())
-                .filter(i -> countMap.get(s.charAt(i)) == 1)
+    //Runtime: 33ms
+    public int firstUniqChar_1(String s) {
+        return IntStream.range(0,s.length())
+                .filter( i-> s.indexOf(s.charAt(i))==s.lastIndexOf(s.charAt(i)))
                 .findFirst()
                 .orElse(-1);
     }
