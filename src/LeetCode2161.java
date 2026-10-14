@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -23,7 +22,6 @@ public class LeetCode2161 {
                .toList();
 
         return list.stream().mapToInt(Integer::intValue).toArray();
-        //return null;//res;
     }
 
     //Claude
@@ -34,7 +32,6 @@ public class LeetCode2161 {
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
-
 
     public static void main(String[] args) {
         LeetCode2161 solution = new LeetCode2161();
