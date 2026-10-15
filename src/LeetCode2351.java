@@ -24,15 +24,15 @@ public class LeetCode2351 {
         return index != -1 ? s.charAt(index) : '0';
     }
 
+    //Runtime: 11ms
     public char repeatedCharacter_1(String s) {
-
         // Just a creative way dont follow blindly
         var map = IntStream.range(0, s.length())
                 .boxed()
-                .collect(Collectors.groupingBy(i -> s.indexOf(s.charAt(i), s.indexOf(s.charAt(i)) + 1)));
+                .collect(Collectors.groupingBy(i -> s.indexOf(s.charAt(i), i + 1)));
 
         //You can see the distance between same char
-        System.out.println(map);
+        //System.out.println(map);
 
         var index = map.keySet()
                 .stream()
@@ -44,11 +44,12 @@ public class LeetCode2351 {
         return index.map(s::charAt).orElse('0');
     }
 
+    //Runtime: 9ms
     public char repeatedCharacter_2(String s) {
         // Just a creative way dont follow blindly
         var set = IntStream.range(0, s.length())
                 .boxed()
-                .map(i -> s.indexOf(s.charAt(i), s.indexOf(s.charAt(i)) + 1))
+                .map(i -> s.indexOf(s.charAt(i), i + 1))
                 .collect(Collectors.toSet());
 
         var index = set

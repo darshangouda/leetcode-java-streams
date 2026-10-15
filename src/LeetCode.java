@@ -3,6 +3,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class LeetCode {
+    public boolean isPalindrome(int x) {
+        char[] nums = Integer.toString(x).toCharArray();
+        return x >= 0 && IntStream.range(0,nums.length).allMatch( i -> nums[i] == nums[nums.length-1-i]);
+    }
 
     public int[] rearrangeArray(int[] nums) {
         var map = Arrays.stream(nums).boxed()
