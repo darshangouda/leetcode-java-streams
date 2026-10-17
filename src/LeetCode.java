@@ -1,16 +1,45 @@
 import java.util.*;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+//This is Just for Practicing java Stream
 public class LeetCode {
-    //1437. Check If All 1's Are at Least Length K Places Away
-    public static boolean kLengthApart(int[] nums, int k) {
-        int[] indexes = IntStream.range(0, nums.length).filter(i->nums[i]==1).toArray();
+    //2423
+    public boolean equalFrequency1(String word) {
+        var freqMap = word.chars()
+                .boxed()
+                .collect(Collectors.groupingBy(ch -> ch, Collectors.summingInt(e -> 1)));
 
-        return IntStream.range(0, indexes.length-1)
-                .allMatch( i -> indexes[i+1] - indexes[i]==1 || indexes[i+1] - indexes[i] >k);
+        System.out.println(freqMap);
+        var groupMap = freqMap.values().stream().collect(Collectors.toMap(ch -> ch,
+                c -> 1, (ex,cu) -> ex+cu ,TreeMap::new));
+
+        System.out.println(groupMap);
+        if(groupMap.size() == 1 && groupMap.firstEntry().getKey() == 1)
+            return true;
+        else if(groupMap.size() == 2 &&
+                (groupMap.lastEntry().getValue() == 1 || groupMap.firstEntry().getValue() == 1))
+            return true;
+        else
+            return false;
     }
 
+    public boolean equalFrequency(String word) {
+        var freqMap = word.chars()
+                .boxed()
+                .collect(Collectors.groupingBy(ch -> ch, Collectors.summingInt(e -> 1)));
 
+        System.out.println(freqMap);
+        var maxKey = freqMap.keySet().stream()
+                .max(Comparator.comparingInt(freqMap::get))
+                .get();
+
+        freqMap.put(maxKey,freqMap.get(maxKey)-1);
+        int maxVal = freqMap.get(maxKey);
+
+        return freqMap.entrySet().stream().allMatch( e -> e.getValue()==maxVal);
+    }
 }
