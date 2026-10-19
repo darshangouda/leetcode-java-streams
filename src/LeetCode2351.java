@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -10,6 +7,14 @@ import java.util.stream.IntStream;
 public class LeetCode2351 {
 
     public char repeatedCharacter(String s) {
+        Set<Integer> set = new HashSet<>();
+        return (char)s.chars()
+                .filter(ch -> !set.add(ch))
+                .findFirst()
+                .orElse('\0');
+    }
+
+    public char repeatedCharacter1(String s) {
         var map = IntStream.range(0, s.length())
                 .boxed()
                 .collect(Collectors.groupingBy(s::charAt));
@@ -18,7 +23,7 @@ public class LeetCode2351 {
                 .stream()
                 .filter(l -> l.size() > 1)
                 .map(l -> l.get(1))
-                .min( Comparator.comparingInt(num -> num))
+                .min(Comparator.comparingInt(num -> num))
                 .orElse(-1);
 
         return index != -1 ? s.charAt(index) : '0';
