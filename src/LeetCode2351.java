@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 //2351. First Letter to Appear Twice
 public class LeetCode2351 {
 
-    public char repeatedCharacter(String s) {
+    public char repeatedCharacter_(String s) {
         Set<Integer> set = new HashSet<>();
         return (char)s.chars()
                 .filter(ch -> !set.add(ch))
@@ -14,19 +14,29 @@ public class LeetCode2351 {
                 .orElse('\0');
     }
 
+    //9ms
+    public char repeatedCharacter(String s) {
+        // Just a creative way dont follow blindly
+        var index = IntStream.range(0, s.length())
+                .boxed()
+                .map(i -> s.indexOf(s.charAt(i), i + 1))
+                .filter( num -> num!=-1)
+                .min(Comparator.comparingInt(n->n));
+
+        return index.map(s::charAt).orElse('\0');
+    }
+
+    //13ms
     public char repeatedCharacter1(String s) {
         var map = IntStream.range(0, s.length())
                 .boxed()
                 .collect(Collectors.groupingBy(s::charAt));
 
-        int index = map.values()
+        return map.keySet()
                 .stream()
-                .filter(l -> l.size() > 1)
-                .map(l -> l.get(1))
-                .min(Comparator.comparingInt(num -> num))
-                .orElse(-1);
-
-        return index != -1 ? s.charAt(index) : '0';
+                .filter(k -> map.get(k).size() > 1)
+                .min(Comparator.comparingInt(k -> map.get(k).get(1)))
+                .orElse('\0');
     }
 
     //Runtime: 11ms
@@ -46,7 +56,7 @@ public class LeetCode2351 {
                 .findFirst();
 
         //return index.isPresent() ? s.charAt(index.get().intValue()): '0';
-        return index.map(s::charAt).orElse('0');
+        return index.map(s::charAt).orElse('\0');
     }
 
     //Runtime: 9ms
